@@ -1,47 +1,102 @@
-import React, { useContext } from 'react';
-import { FormControl, InputLabel, Select, MenuItem, Button } from '@mui/material';
+import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  TextField,
+  InputAdornment,
+} from '@mui/material';
+import { Menu as MenuIcon, Close as CloseIcon, Clear as ClearIcon } from '@mui/icons-material';
 import { ImageContext } from '../context/ImageContext';
+import { searchImages } from '../api/nasa';
 
-const FilterMenu = () => {
-  const { setSortOrder, setFilterCriteria } = useContext(ImageContext);
+const FilterMenu = ({ children }) => {
+  const { setImages, searchQuery, setSearchQuery } = useContext(ImageContext);
+  const [loading, setLoading] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSortChange = (event) => {
-    setSortOrder(event.target.value);
+  const handleFilterChange = async () => {
+    setLoading(true);
+    try {
+      const results = await searchImages(searchQuery);
+      setImages(results.data.collection.items);
+      setDrawerOpen(false);
+      navigate('/');
+    } catch (error) {
+      console.error('Erreur lors de la recherche:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleFilterChange = (event) => {
-    setFilterCriteria(event.target.value);
+  const cleanFilter = async () => {
+    setLoading(true);
+    setSearchQuery('');
+    try {
+      const response = await searchImages();
+      setImages(response.data.collection.items);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des données', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleDrawer = () => {
+    setDrawerOpen(!drawerOpen);
   };
 
   return (
-    <div>
-      <FormControl fullWidth variant="outlined" margin="normal">
-        <InputLabel id="sort-label">Trier par</InputLabel>
-        <Select
-          labelId="sort-label"
-          onChange={handleSortChange}
-          defaultValue=""
-        >
-          <MenuItem value="title">Titre</MenuItem>
-          <MenuItem value="date_created">Date de création</MenuItem>
-          <MenuItem value="photographer">Photographe</MenuItem>
-        </Select>
-      </FormControl>
+    <Box sx={{ display: 'flex', position: 'relative' }}>
+      <IconButton onClick={toggleDrawer} color="primary" sx={{ top: 16, left: 13, zIndex: 1000, position: 'absolute', marginRight: '10px' }}>
+        <MenuIcon />
+      </IconButton>
+      <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
+        <Box sx={{ width: 300, padding: 2 }}>
+          <IconButton onClick={toggleDrawer} sx={{ mb: 2 }}>
+            <CloseIcon />
+          </IconButton>
+          <List>
+            <ListItem>
+              <TextField
+                variant="outlined"
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Rechercher une image..."
+                fullWidth
+                margin="normal"
+                InputProps={{
+                  endAdornment: searchQuery ? (
+                    <InputAdornment position="end">
+                      <IconButton onClick={cleanFilter}>
+                        <ClearIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  ) : null,
+                }}
+              />
+            </ListItem>
 
-      <FormControl fullWidth variant="outlined" margin="normal">
-        <InputLabel id="filter-label">Filtrer par</InputLabel>
-        <Select
-          labelId="filter-label"
-          onChange={handleFilterChange}
-          defaultValue=""
-        >
-          <MenuItem value="all">Tous</MenuItem>
-          <MenuItem value="specific_criteria">Critères spécifiques</MenuItem>
-        </Select>
-      </FormControl>
-      
-      <Button variant="contained" color="primary">Appliquer</Button>
-    </div>
+            <ListItem>
+              <Button variant="contained" color="primary" onClick={handleFilterChange} disabled={loading} fullWidth>
+                {loading ? <CircularProgress size={24} /> : 'Appliquer les filtres'}
+              </Button>
+            </ListItem>
+          </List>
+        </Box>
+      </Drawer>
+
+      <Box sx={{ flexGrow: 1, padding: '16px' }}>
+        {children}
+      </Box>
+    </Box>
   );
 };
 
