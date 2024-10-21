@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
   Grid,
   Card,
@@ -9,9 +9,55 @@ import {
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { ImageContext } from '../context/ImageContext';
+import { LanguageSelector } from '../components/LanguageSelector';
+import { translateText } from '../api/translator';
 
 const NasaImages = () => {
   const { images, searchQuery, setSortOrder, sortOrder } = useContext(ImageContext);
+  const [selectedLanguage, setSelectedLanguage] = useState('en');
+
+
+  const [translatedTitle, setTranslatedTitle] = useState('NASA Photos');
+  const [translatedSubtitle, setTranslatedSubtitle] = useState('Discover the images captured by NASA');
+  const [translatedSubtitle2, setTranslatedSubtitle2] = useState('for the search :');
+  const [translateTrimmedTitle, setTranslateTrimmedTitle] = useState('Sort by date');
+  const [translateDesc , setTranslateDesc] = useState('Décroissant');
+  const [translateAsc , setTranslateAsc] = useState('Croissant');
+
+  useEffect(() => {
+      const translateFields = async () => {
+              try {
+
+                  const translatedTitle = await translateText("NASA Photos", selectedLanguage);
+                  setTranslatedTitle(translatedTitle);
+
+                  const translatedSubtitle = await translateText("Discover the images captured by NASA", selectedLanguage);
+                  setTranslatedSubtitle(translatedSubtitle);
+
+                  const translatedSubtitle2 = await translateText("for the search :", selectedLanguage);
+                  setTranslatedSubtitle2(translatedSubtitle2);
+
+                  const translateTrimmedTitle = await translateText("Sort by date", selectedLanguage);
+                  setTranslateTrimmedTitle(translateTrimmedTitle);
+
+                  const translateDesc = await translateText("Ascending", selectedLanguage);
+                  setTranslateDesc(translateDesc);
+
+                  const translateAsc = await translateText("descending", selectedLanguage);
+                  setTranslateAsc(translateAsc);
+
+
+              } catch (error) {
+                  console.error('Erreur lors de la traduction:', error);
+              }
+          };
+
+      translateFields();
+  }, [selectedLanguage]);
+
+  const handleLanguageChange = (event) => {
+      setSelectedLanguage(event.target.value);
+  };
 
   const sortedImages = [...images].sort((a, b) => {
     const dateA = new Date(a.data[0].date_created);
@@ -27,11 +73,11 @@ const NasaImages = () => {
     <Grid container spacing={3} sx={{ padding: 2 }}>
       <Grid item xs={12}>
         <Typography variant="h4" align="center" sx={{ marginBottom: 4, fontWeight: 'bold' }}>
-          Photos de la NASA
+          {translatedTitle}
         </Typography>
         <Typography variant="h6" align="center" sx={{ color: 'gray', marginBottom: 2 }}>
-          Découvrez les images capturées par la NASA
-          <span style={{ color: 'gray', marginBottom: 2 }}> {searchQuery ? 'pour la recherche : ' : ''}</span>
+          {translatedSubtitle}
+          <span style={{ color: 'gray', marginBottom: 2 }}> {searchQuery ? translatedSubtitle2 : ''}</span>
           <span style={{ color: 'blue', fontWeight: 'bold' }}> {searchQuery}</span>
         </Typography>
 
@@ -47,8 +93,11 @@ const NasaImages = () => {
             marginBottom: 4,
           }}
         >
-          Trier par date ({sortOrder === 'asc' ? 'Croissant' : 'Décroissant'})
+          {translateTrimmedTitle} ({sortOrder === 'asc' ? translateAsc : translateDesc})
         </Button>
+      </Grid>
+      <Grid item xs={12}>
+        <LanguageSelector selectedLanguage={selectedLanguage} handleLanguageChange={handleLanguageChange} />
       </Grid>
 
       <Grid container spacing={3}>

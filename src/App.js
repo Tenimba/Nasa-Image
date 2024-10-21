@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import NasaImages from './components/NasaImages';
-import ImageDetail from './components/ImageDetail';
-import FilterMenu from './components/FilterMenu';
+import NasaImages from './templete/NasaImages';
+import ImageDetail from './templete/ImageDetail';
+import FilterMenu from './templete/FilterMenu';
 import { ImageProvider } from './context/ImageContext'; 
 import { Box } from '@mui/material';
 

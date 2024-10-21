@@ -6,7 +6,6 @@ export const searchImages = async (query) => {
     if (query) {
         NASA_API_URL += `&q=${query}`;
     }
-    console.log(NASA_API_URL);
     const response = await axios.get(NASA_API_URL);
     return response;
 };
