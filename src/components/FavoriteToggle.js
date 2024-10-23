@@ -1,10 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Snackbar, IconButton, Alert } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 import { useAuth0 } from '@auth0/auth0-react';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import { ImageContext } from '../context/ImageContext';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import CloseIcon from '@mui/icons-material/Close';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 const FavoriteToggle = () => {

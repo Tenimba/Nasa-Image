@@ -10,7 +10,6 @@ import {
   ListItem,
   TextField,
   InputAdornment,
-  FormControl, FormControlLabel, Radio, RadioGroup
 } from '@mui/material';
 import { Menu as MenuIcon, Close as CloseIcon, Clear as ClearIcon } from '@mui/icons-material';
 import { ImageContext } from '../context/ImageContext';

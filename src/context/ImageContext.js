@@ -1,6 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { searchImages } from '../api/nasa';
-import Chargement from '../components/Chargement';
 
 export const ImageContext = createContext();
 
