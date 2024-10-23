@@ -12,31 +12,30 @@ Utiliser Material UI\
 
 
 # result
-# NASA Image Viewer
+# Projet de Visualisation d'Images de la NASA
 
 ## Description
-Ce projet est une application de visualisation d'images de la NASA. L'application permet aux utilisateurs de rechercher et de filtrer des images et des vidéos, tout en offrant une expérience utilisateur fluide grâce à une interface moderne construite avec **React** et **Material-UI**. Les utilisateurs peuvent également sauvegarder leurs images préférées et naviguer facilement à travers les différentes sections de l'application.
+Ce projet est une application de visualisation d'images de la NASA. L'application permet aux utilisateurs de rechercher et de filtrer des images et des vidéos, tout en offrant une expérience utilisateur fluide grâce à une interface moderne construite avec React et Material-UI. Les utilisateurs peuvent également sauvegarder leurs images préférées et naviguer facilement à travers les différentes sections de l'application. De plus, des traductions dynamiques sont intégrées via l'API Google Translate pour améliorer l'accessibilité et l'expérience utilisateur.
 
 ## Durée du Projet
-Le projet a été réalisé en **17 heures et 30 minutes**, réparties comme suit :
-
-- **Dimanche** : 3 heures
-- **Lundi** : 3 heures et 30 minutes
-- **Mardi** : 4 heures
-- **Mercredi** : 7 heures
+Le projet a été réalisé en 17 heures et 30 minutes, réparties comme suit :
+- Dimanche : 3 heures
+- Lundi : 3 heures et 30 minutes
+- Mardi : 4 heures
+- Mercredi : 7 heures
 
 ## Technologies Utilisées
-
 ### Frontend :
-- **React**
-- **Material-UI**
-- **Axios** pour les requêtes API
-- **Auth0** pour l'authentification
-- **NASA API** pour les données d'images
+- React
+- Material-UI
+- Axios pour les requêtes API
+- Auth0 pour l'authentification
+- API : NASA API pour les données d'images
+- API : Google Translate pour les traductions dynamiques
 
 ### Outils :
-- **Visual Studio Code**
-- **Git** pour le versioning
+- Visual Studio Code
+- Git pour le versioning
 
 ## Fonctionnalités
 - Recherche d'images et de vidéos via l'API de la NASA
@@ -44,6 +43,8 @@ Le projet a été réalisé en **17 heures et 30 minutes**, réparties comme sui
 - Système de favoris pour enregistrer les images préférées
 - Authentification des utilisateurs avec Auth0
 - Interface utilisateur réactive et moderne
+- Traductions dynamiques via l'API Google Translate
+
 
 repartition sur trello:  https://trello.com/b/sdnLejPd/digitalisim
 
