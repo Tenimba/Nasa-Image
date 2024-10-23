@@ -15,7 +15,7 @@ Utiliser Material UI\
 # Projet de Visualisation d'Images de la NASA
 
 # Description
-**Ce projet est une application de visualisation d'images de la NASA.** L'application permet aux utilisateurs de rechercher et de filtrer des images et des vidéos, tout en offrant une expérience utilisateur fluide grâce à une interface moderne construite avec React et Material-UI. Les utilisateurs peuvent également sauvegarder leurs images préférées et naviguer facilement à travers les différentes sections de l'application.
+**Ce projet est une application de visualisation d'images de la NASA.** L'application permet aux utilisateurs de rechercher et de filtrer des images et des vidéos, tout en offrant une expérience utilisateur fluide grâce à une interface moderne construite avec **React et Material-UI.** Les utilisateurs peuvent également sauvegarder leurs images préférées et naviguer facilement à travers les différentes sections de l'application.
 
 ## Durée du Projet
 **Le projet a été réalisé en 17 heures et 30 minutes, réparties comme suit :**
@@ -37,6 +37,7 @@ Utiliser Material UI\
 **Outils :**
 - **Visual Studio Code**
 - **Git** pour le versioning
+- **Repartition sur trello** https://trello.com/b/sdnLejPd/digitalisim
 
 ## Fonctionnalités
 - **Recherche d'images et de vidéos** via l'API de la NASA
@@ -46,7 +47,7 @@ Utiliser Material UI\
 - **Interface utilisateur réactive et moderne**
 
 
-repartition sur trello:  https://trello.com/b/sdnLejPd/digitalisim
+
 
 # Getting Started with Create React App
 
