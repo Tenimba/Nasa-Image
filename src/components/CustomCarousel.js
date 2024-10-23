@@ -6,6 +6,8 @@ import { Box, Card, CardMedia, Grid } from '@mui/material';
 const CustomCarousel = ({ images, navigate }) => {
     const carouselRef = useRef(null);
 
+    images = images.filter(image => image.links && image.links.length > 0);
+
     return (
         <Box sx={{ marginTop: 8 }}>
             <Carousel

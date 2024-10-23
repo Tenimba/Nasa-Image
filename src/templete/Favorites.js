@@ -19,7 +19,7 @@ const FavoriteList = () => {
         removeAllFavorites,
       } = useTranslation(selectedLanguage);
 
-
+    // Effect pour récupérer les favoris de l'utilisateur connecté
     useEffect(() => {
         if (isAuthenticated) {
             const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
@@ -30,6 +30,7 @@ const FavoriteList = () => {
         }
     }, [isAuthenticated, user, loginWithRedirect, setFavoriteImages]);
 
+    // Supprimer tous les favoris de l'utilisateur connecté
     const handleRemoveAllFavorites = () => {
         const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
         const remainingFavorites = storedFavorites.filter(fav => fav.user_id !== user.sub);
@@ -37,6 +38,7 @@ const FavoriteList = () => {
         localStorage.setItem('favorites', JSON.stringify(remainingFavorites));  // Mise à jour du localStorage
     };
 
+    // Gestion du changement de langue sélectionnée
     const handleLanguageChange = (event) => {
         setSelectedLanguage(event.target.value);
     };

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
     Card,
@@ -11,14 +11,14 @@ import {
     DialogContent,
     IconButton,
 } from '@mui/material';
-import { searchImages } from '../api/nasa';
+import { searchImages, getAsset } from '../api/nasa';
 import { ImageContext } from '../context/ImageContext';
 import { translateText } from '../api/translator';
 import LanguageSelector from '../components/LanguageSelector';
 import CloseIcon from '@mui/icons-material/Close';
 import CustomCarousel from '../components/CustomCarousel';
 import DOMPurify from 'dompurify';
-import FavoriteToggle  from '../components/FavoriteToggle';
+import FavoriteToggle from '../components/FavoriteToggle';
 import useTranslation from '../components/UseTranslation';
 
 const ImageDetail = () => {
@@ -26,28 +26,30 @@ const ImageDetail = () => {
     const { nasa_id } = useParams();
     const { images, setImages, setSearchQuery, setLoading, selectedLanguage, setSelectedLanguage } = useContext(ImageContext);
     const [open, setOpen] = useState(false);
-    const imageDetail = images.find(item => item.data[0].nasa_id === nasa_id);
     const [translatedDescription, setTranslatedDescription] = useState('');
     const [translatedTitle, setTranslatedTitle] = useState('');
+    const [videoUrl, setVideoUrl] = useState('');
+    const videoRef = useRef(null);
     const {
         photographer,
         location,
         keywords,
         similarImages,
     } = useTranslation(selectedLanguage);
+    const imageDetail = images.find(item => item.data[0]?.nasa_id === nasa_id);
 
     useEffect(() => {
         const translateFields = async () => {
             if (imageDetail) {
                 try {
-                    if (imageDetail.data[0].description) {
-                        const translatedDesc = await translateText(imageDetail.data[0].description, selectedLanguage);
+                    if (imageDetail.data[0]?.description) {
+                        const translatedDesc = await translateText(imageDetail.data[0]?.description, selectedLanguage);
                         const sanitizedDesc = DOMPurify.sanitize(translatedDesc);
                         setTranslatedDescription(sanitizedDesc);
                     }
 
-                    if (imageDetail.data[0].title) {
-                        const translatedTitle = await translateText(imageDetail.data[0].title, selectedLanguage);
+                    if (imageDetail.data[0]?.title) {
+                        const translatedTitle = await translateText(imageDetail.data[0]?.title, selectedLanguage);
                         setTranslatedTitle(translatedTitle);
                     }
 
@@ -58,8 +60,18 @@ const ImageDetail = () => {
         };
 
         translateFields();
-    }, [imageDetail, selectedLanguage]);    
+    }, [imageDetail, selectedLanguage]);
 
+    // Récupère l'URL de la vidéo
+    useEffect(() => {
+        if (imageDetail?.data[0]?.media_type === 'video') {
+            getAsset(nasa_id).then(response => {
+                setVideoUrl(response.items[0].href);
+            });
+        }
+    }, [imageDetail, nasa_id]);
+
+    // Gestion du changement de langue sélectionnée
     const handleLanguageChange = (event) => {
         setSelectedLanguage(event.target.value);
     };
@@ -72,17 +84,23 @@ const ImageDetail = () => {
         setOpen(true);
     };
 
+    // Ferme la modale d'image
     const handleCloseImage = () => {
+        if (videoRef.current) {
+            videoRef.current.pause();
+            videoRef.current.currentTime = 0;
+        }
         setOpen(false);
     };
 
+    // click sur un mot-clé pour lancer une recherche
     const handleSearch = (keyword) => {
         setSearchQuery(keyword);
         setImages([]);
         setLoading(true);
         try {
             searchImages(keyword).then(response => {
-                setImages(response.data.collection.items);
+                setImages(response.data?.collection.items);
             });
             setLoading(false);
             navigate('/');
@@ -124,19 +142,19 @@ const ImageDetail = () => {
                     <FavoriteToggle />
                     <CardContent sx={{ padding: 2 }}>
                         <Typography variant="h5" sx={{ marginBottom: 2, fontWeight: 'bold', textAlign: 'center' }}>
-                            {translatedTitle || imageDetail.data[0].title}
+                            {translatedTitle || imageDetail.data[0]?.title}
                         </Typography>
 
                         <Typography variant="body1" sx={{ marginBottom: 1 }}>
                             <strong>{photographer} :</strong>
-                            {imageDetail.data[0].photographer || 'Non spécifié'}
+                            {imageDetail.data[0]?.photographer || 'Non spécifié'}
                         </Typography>
                         <Typography variant="body1" sx={{ marginBottom: 1 }}>
                             <strong>{location} :</strong>
-                            {imageDetail.data[0].location || 'Non spécifié'}
+                            {imageDetail.data[0]?.location || 'Non spécifié'}
                         </Typography>
                         <Typography variant="body1" sx={{ marginBottom: 2 }}>
-                            <strong>Date :</strong> {imageDetail.data[0].date_created.split('T')[0]}
+                            <strong>Date :</strong> {imageDetail.data[0]?.date_created.split('T')[0]}
                         </Typography>
                         <Typography
                             variant="body2"
@@ -144,11 +162,11 @@ const ImageDetail = () => {
                             dangerouslySetInnerHTML={{ __html: translatedDescription }}
                         />
 
-                        {imageDetail.data[0].keywords && (
+                        {imageDetail.data[0]?.keywords && (
                             <Box sx={{ marginTop: 2 }}>
                                 <Typography variant="h6" sx={{ marginBottom: 1 }}>{keywords}</Typography>
                                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                                    {imageDetail.data[0].keywords.map((keyword, index) => (
+                                    {imageDetail.data[0]?.keywords.map((keyword, index) => (
                                         <Chip
                                             key={index}
                                             label={keyword}
@@ -182,6 +200,8 @@ const ImageDetail = () => {
 
             <Dialog open={open} onClose={handleCloseImage} maxWidth="lg">
                 <DialogContent sx={{ padding: 0 }}>
+                    {imageDetail.data[0]?.media_type === 'image' ? (
+                        <>
                     <IconButton
                         aria-label="close"
                         onClick={handleCloseImage}
@@ -190,15 +210,31 @@ const ImageDetail = () => {
                             right: 8,
                             top: 8,
                             color: (theme) => theme.palette.grey[500],
+                            border : '5px solid white'
                         }}
                     >
                         <CloseIcon />
                     </IconButton>
-                    <img
-                        src={imageDetail.links[0].href}
-                        alt="NASA Image"
-                        style={{ width: '100%', height: 'auto' }}
-                    />
+
+                        <img
+                            src={imageDetail.links[0].href}
+                            alt="NASA Image"
+                        />
+                        </>
+                    ) : imageDetail.data[0]?.media_type === 'video' ? (
+                        <video
+                            ref={videoRef}
+                            width={500}
+                            height={500}
+                            controls
+                        >
+                            <source src={videoUrl} type="video/mp4" />
+                        </video>
+                    ) : (
+                        <Typography variant="h6" textAlign="center" color="white">
+                            Le type de média n'est pas pris en charge.
+                        </Typography>
+                    )}
                 </DialogContent>
             </Dialog>
         </Box>
@@ -206,4 +242,3 @@ const ImageDetail = () => {
 };
 
 export default ImageDetail;
-

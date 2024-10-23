@@ -11,6 +11,9 @@ Avoir la possibilité de trier ces cartes\
 Utiliser Material UI\
 
 
+# result
+projet realiser en 17h30 repartie sur 7h dimanche 3h lundi 3h30 mardi 4h mercredi
+
 
 
 # Getting Started with Create React App

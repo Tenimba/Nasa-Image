@@ -10,6 +10,7 @@ import {
   ListItem,
   TextField,
   InputAdornment,
+  FormControl, FormControlLabel, Radio, RadioGroup
 } from '@mui/material';
 import { Menu as MenuIcon, Close as CloseIcon, Clear as ClearIcon } from '@mui/icons-material';
 import { ImageContext } from '../context/ImageContext';
@@ -18,7 +19,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import useTranslation from '../components/UseTranslation';
 
 const FilterMenu = ({ children }) => {
-  const { setImages, searchQuery, setSearchQuery, loading, setLoading, selectedLanguage } = useContext(ImageContext);
+  const { setImages, searchQuery, setSearchQuery, loading, setLoading, selectedLanguage, setMediaType, mediaType } = useContext(ImageContext);
   const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const navigate = useNavigate();
@@ -31,12 +32,23 @@ const FilterMenu = ({ children }) => {
     applyFilter,
   } = useTranslation(selectedLanguage);
 
+  // Fonction de gestion des filtres : déclenche une recherche d'images via l'API
   const handleFilterChange = async () => {
     setLoading(true);
     setImages([]);
     try {
       const results = await searchImages(searchQuery);
-      setImages(results.data.collection.items);
+      const items = results.data?.collection.items;
+
+      // Filtrage des images et vidéos en fonction du type de média sélectionné
+      let filteredItems = items;
+      if (mediaType === 'image') {
+        filteredItems = items.filter(item => item.data[0]?.media_type === 'image');
+      } else if (mediaType === 'video') {
+        filteredItems = items.filter(item => item.data[0]?.media_type === 'video');
+      }
+
+      setImages(filteredItems);
       setDrawerOpen(false);
       navigate('/');
     } catch (error) {
@@ -46,12 +58,14 @@ const FilterMenu = ({ children }) => {
     }
   };
 
+  // remet à zéro le filtre de recherche
   const cleanFilter = async () => {
     setLoading(true);
     setSearchQuery('');
+    setMediaType('image,video');
     try {
       const response = await searchImages();
-      setImages(response.data.collection.items);
+      setImages(response.data?.collection.items);
     } catch (error) {
       console.error('Erreur lors de la récupération des données', error);
     } finally {
@@ -59,8 +73,26 @@ const FilterMenu = ({ children }) => {
     }
   };
 
+  // Fonction pour ouvrir et fermer le menu latéral
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
+  };
+
+  // Fonction pour choisir le type de média (image, vidéo, les deux)
+  const choiceMediaType = (type) => {
+    if (mediaType === type) {
+      setMediaType('');
+    } else {
+      setMediaType(type);
+    }
+      setLoading(true);
+      searchImages(searchQuery, type).then(response => {
+        setImages(response.data?.collection.items);
+      }).catch(error => {
+        console.error('Erreur lors de la recherche:', error);
+      }).finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -191,11 +223,50 @@ const FilterMenu = ({ children }) => {
                   }}
                 >
                   {loading ?
-                  <CircularProgress size={24} /> :
-                  applyFilter
+                    <CircularProgress size={24} /> :
+                    applyFilter
                   }
                 </Button>
               </ListItem>
+              <ListItem sx={{ justifyContent: 'space-around' }}>
+                <Button
+                  variant={mediaType === 'image' ? 'contained' : 'outlined'}
+                  onClick={() => choiceMediaType('image')}
+                  fullWidth
+                  sx={{
+                    color: mediaType === 'image' ? 'white' : '#2c387e',
+                    backgroundColor: mediaType === 'image' ? '#2c387e' : 'transparent',
+                    borderColor: mediaType === 'image' ? 'transparent' : 'rgba(255, 255, 255, 0.5)',
+                  }}
+                >
+                  Images
+                </Button>
+                <Button
+                  variant={mediaType === 'video' ? 'contained' : 'outlined'}
+                  onClick={() => choiceMediaType('video')}
+                  fullWidth
+                  sx={{
+                    color: mediaType === 'video' ? 'white' : '#2c387e',
+                    backgroundColor: mediaType === 'video' ? '#2c387e' : 'transparent',
+                    borderColor: mediaType === 'video' ? 'transparent' : 'rgba(255, 255, 255, 0.5)',
+                  }}
+                >
+                  Vidéos
+                </Button>
+                <Button
+                  variant={mediaType === 'image,video' ? 'contained' : 'outlined'}
+                  onClick={() => choiceMediaType('image,video')}
+                  fullWidth
+                  sx={{
+                    color: mediaType === 'image,video' ? 'white' : '#2c387e',
+                    backgroundColor: mediaType === 'image,video' ? '#2c387e' : 'transparent',
+                    borderColor: mediaType === 'image,video' ? 'transparent' : 'rgba(255, 255, 255, 0.5)',
+                  }}
+                >
+                  Tous
+                </Button>
+              </ListItem>
+
               {location.pathname === '/favorites' ? (
                 <ListItem>
                   <Button

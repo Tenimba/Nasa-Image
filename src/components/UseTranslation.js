@@ -20,10 +20,11 @@ const useTranslations = (selectedLanguage) => {
         removeAllFavorites: 'Remove all favorites',
         logoutText: 'Logout',
         login: 'Login',
-        applyFilter: 'Apply filters'
+        applyFilter: 'Wanted'
 
     });
 
+    // Effect pour traduire les textes statiques
     useEffect(() => {
         const fetchTranslations = async () => {
             try {
@@ -43,7 +44,7 @@ const useTranslations = (selectedLanguage) => {
                 const translatedRemoveAllFavorites = await translateText('Remove all favorites', selectedLanguage);
                 const translatedLogout = await translateText('Logout', selectedLanguage);
                 const translatedLogin = await translateText('Login', selectedLanguage);
-                const translatedFilter = await translateText('Apply filters', selectedLanguage);
+                const translatedFilter = await translateText('Wanted', selectedLanguage);
 
 
                 setTranslations({

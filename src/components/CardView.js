@@ -2,10 +2,12 @@ import React, { useEffect, useContext, useState } from 'react';
 import { Grid, Card, CardMedia, CardContent, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { ImageContext } from '../context/ImageContext';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow'; // Importez l'icône
 
 export const CardView = ({ images }) => {
   const { sortOrder } = useContext(ImageContext);
   const [sortedImages, setSortedImages] = useState([]);
+  const [hoveredIndex, setHoveredIndex] = useState(null); // État pour suivre l'index survolé
 
   useEffect(() => {
     if (!Array.isArray(images)) {
@@ -33,6 +35,8 @@ export const CardView = ({ images }) => {
             md={4}
             lg={2}
             key={item.data[0].nasa_id}
+            onMouseEnter={() => setHoveredIndex(index)}
+            onMouseLeave={() => setHoveredIndex(null)}
             sx={{
               transition: 'opacity 0.5s ease-in',
             }}
@@ -41,6 +45,7 @@ export const CardView = ({ images }) => {
               sx={{
                 borderRadius: 2,
                 boxShadow: 3,
+                position: 'relative',
                 transition: 'transform 0.2s, box-shadow 0.2s',
                 '&:hover': {
                   transform: 'scale(1.03)',
@@ -58,6 +63,20 @@ export const CardView = ({ images }) => {
                   image={item.links[0].href}
                   alt={item.data[0].title}
                 />
+                {item.data[0].media_type === 'video' && (
+                  <PlayArrowIcon
+                    sx={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      color: 'white',
+                      fontSize: '3rem',
+                      opacity: hoveredIndex === index ? 1 : 0,
+                      transition: 'opacity 0.3s ease',
+                    }}
+                  />
+                )}
               </Link>
               <CardContent>
                 <Typography
@@ -85,4 +104,3 @@ export const CardView = ({ images }) => {
     </Grid>
   );
 };
-

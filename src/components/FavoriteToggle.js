@@ -15,6 +15,7 @@ const FavoriteToggle = () => {
     const [isFavorite, setIsFavorite] = useState(false);
     const imageDetail = images.find(item => item.data[0].nasa_id === nasa_id);
 
+    // Effect pour vérifier si l'image est déjà dans les favoris
     useEffect(() => {
         const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
         const isAlreadyFavorite = favorites.some(fav => fav.data[0].nasa_id === nasa_id);
@@ -22,6 +23,8 @@ const FavoriteToggle = () => {
     }
     , [nasa_id]);
 
+    // Fonction pour ajouter ou supprimer une image des favoris
+    // Si l'utilisateur n'est pas connecté, un message d'alerte s'affiche
     const toggleFavorite = () => {
         if (!isAuthenticated) {
             setSnackbarOpen(true);
@@ -46,7 +49,7 @@ const FavoriteToggle = () => {
         localStorage.setItem('favorites', JSON.stringify(favorites));
         setIsFavorite(!isFavorite);
     };
-
+    // Fonction pour fermer le message d'alerte
     const handleCloseSnackbar = () => {
         setSnackbarOpen(false);
     };

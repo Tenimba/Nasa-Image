@@ -12,6 +12,9 @@ export const ImageProvider = ({ children }) => {
     const [favoriteImages, setFavoriteImages] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedLanguage, setSelectedLanguage] = useState("en");
+    const [mediaType, setMediaType] = useState("image,video");
+
+    // Effect pour récupérer les images de la NASA
 
     useEffect(() => {
         const fetchData = async (query) => {
@@ -32,12 +35,6 @@ export const ImageProvider = ({ children }) => {
         fetchData();
     }, []);
 
-    if (loading) {
-        return (
-            <Chargement />
-        )
-    }
-
     if (error) {
         return <p>Erreur de chargement des images: {error}</p>;
     }
@@ -49,7 +46,8 @@ export const ImageProvider = ({ children }) => {
             searchQuery, setSearchQuery,
             loading, setLoading,
             favoriteImages, setFavoriteImages,
-            selectedLanguage, setSelectedLanguage
+            selectedLanguage, setSelectedLanguage,
+            mediaType, setMediaType
             }
         }>
             {children}
