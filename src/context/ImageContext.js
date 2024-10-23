@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { searchImages } from '../api/nasa';
+import Chargement from '../components/Chargement';
 
 export const ImageContext = createContext();
 
@@ -8,7 +9,9 @@ export const ImageProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [sortOrder, setSortOrder] = useState("desc");
+    const [favoriteImages, setFavoriteImages] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
+    const [selectedLanguage, setSelectedLanguage] = useState("en");
 
     useEffect(() => {
         const fetchData = async (query) => {
@@ -30,7 +33,9 @@ export const ImageProvider = ({ children }) => {
     }, []);
 
     if (loading) {
-        return <p>Chargement des images...</p>;
+        return (
+            <Chargement />
+        )
     }
 
     if (error) {
@@ -38,7 +43,15 @@ export const ImageProvider = ({ children }) => {
     }
 
     return (
-        <ImageContext.Provider value={{ images, setImages, setSortOrder, sortOrder, searchQuery, setSearchQuery, }}>
+        <ImageContext.Provider value={{ 
+            images, setImages,
+            setSortOrder, sortOrder,
+            searchQuery, setSearchQuery,
+            loading, setLoading,
+            favoriteImages, setFavoriteImages,
+            selectedLanguage, setSelectedLanguage
+            }
+        }>
             {children}
         </ImageContext.Provider>
     );

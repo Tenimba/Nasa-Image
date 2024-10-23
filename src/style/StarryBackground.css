@@ -1,0 +1,35 @@
+.starrry-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none; 
+}
+
+.nebula-star {
+  position: absolute;
+  background: radial-gradient(circle at center, rgba(255, 204, 0, 0.9), rgba(255, 204, 0, 0.6), rgba(30, 144, 255, 0.8), rgba(165, 42, 42, 0.8), transparent);
+  border-radius: 50%;
+  filter: blur(4px);
+  opacity: 1;
+  animation: fadeOut 1500ms ease-out forwards;
+  z-index: 1;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+#starryCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  z-index: -1;
+}
