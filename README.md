@@ -11,7 +11,7 @@ Avoir la possibilité de trier ces cartes
 Utiliser Material UI
 
 
-# RESUSLTAT
+# RESULTAT
 # Projet de Visualisation d'Images de la NASA
 
 # Description
