@@ -1,14 +1,14 @@
 # CONSIGNE 
-Récupérer des éléments sur une  API  de votre choix via \
+Récupérer des éléments sur une  API  de votre choix via
 useEffect et axios (https://api.nasa.gov/ par exemple) en GET
-Avoir une grille de cartes : un carte par élément avec photo + titre au minimum \
+Avoir une grille de cartes : un carte par élément avec photo + titre au minimum
 
-Rediriger l'utilisateur vers une page détaillée de de la carte suite à un clic sur l'image\
+Rediriger l'utilisateur vers une page détaillée de de la carte suite à un clic sur l'image
 
-Avoir un menu latéral permettant de filtrer la grille d'élément selon les critères de votre choix\
+Avoir un menu latéral permettant de filtrer la grille d'élément selon les critères de votre choix
 
-Avoir la possibilité de trier ces cartes\
-Utiliser Material UI\
+Avoir la possibilité de trier ces cartes
+Utiliser Material UI
 
 
 # RESUSLTAT
