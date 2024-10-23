@@ -12,9 +12,40 @@ Utiliser Material UI\
 
 
 # result
-projet realiser en 17h30 repartie sur 7h dimanche 3h lundi 3h30 mardi 4h mercredi
+# NASA Image Viewer
 
+## Description
+Ce projet est une application de visualisation d'images de la NASA. L'application permet aux utilisateurs de rechercher et de filtrer des images et des vidéos, tout en offrant une expérience utilisateur fluide grâce à une interface moderne construite avec **React** et **Material-UI**. Les utilisateurs peuvent également sauvegarder leurs images préférées et naviguer facilement à travers les différentes sections de l'application.
 
+## Durée du Projet
+Le projet a été réalisé en **17 heures et 30 minutes**, réparties comme suit :
+
+- **Dimanche** : 3 heures
+- **Lundi** : 3 heures et 30 minutes
+- **Mardi** : 4 heures
+- **Mercredi** : 7 heures
+
+## Technologies Utilisées
+
+### Frontend :
+- **React**
+- **Material-UI**
+- **Axios** pour les requêtes API
+- **Auth0** pour l'authentification
+- **NASA API** pour les données d'images
+
+### Outils :
+- **Visual Studio Code**
+- **Git** pour le versioning
+
+## Fonctionnalités
+- Recherche d'images et de vidéos via l'API de la NASA
+- Filtrage des résultats par type de média (images, vidéos, tous)
+- Système de favoris pour enregistrer les images préférées
+- Authentification des utilisateurs avec Auth0
+- Interface utilisateur réactive et moderne
+
+repartition sur trello:  https://trello.com/b/sdnLejPd/digitalisim
 
 # Getting Started with Create React App
 
