@@ -87,7 +87,8 @@ const FilterMenu = ({ children }) => {
     }
       setLoading(true);
       searchImages(searchQuery, type).then(response => {
-        setImages(response.data?.collection.items);
+        setImages(response?.data?.collection.items);
+        setDrawerOpen(false);
       }).catch(error => {
         console.error('Erreur lors de la recherche:', error);
       }).finally(() => {
