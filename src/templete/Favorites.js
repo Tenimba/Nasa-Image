@@ -17,7 +17,7 @@ const FavoriteList = () => {
         yourFavorites,
         emptyFavorites,
         removeAllFavorites,
-      } = useTranslation(selectedLanguage);
+    } = useTranslation(selectedLanguage);
 
     // Effect pour récupérer les favoris de l'utilisateur connecté
     useEffect(() => {

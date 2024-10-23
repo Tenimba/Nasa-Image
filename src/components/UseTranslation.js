@@ -73,7 +73,7 @@ const useTranslations = (selectedLanguage) => {
 
         fetchTranslations();
     }, [selectedLanguage]);
-    
+
     return translations;
 };
 

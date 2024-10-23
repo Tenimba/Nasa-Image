@@ -39,7 +39,7 @@ export const ImageProvider = ({ children }) => {
     }
 
     return (
-        <ImageContext.Provider value={{ 
+        <ImageContext.Provider value={{
             images, setImages,
             setSortOrder, sortOrder,
             searchQuery, setSearchQuery,
@@ -47,7 +47,7 @@ export const ImageProvider = ({ children }) => {
             favoriteImages, setFavoriteImages,
             selectedLanguage, setSelectedLanguage,
             mediaType, setMediaType
-            }
+        }
         }>
             {children}
         </ImageContext.Provider>

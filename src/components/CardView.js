@@ -2,12 +2,12 @@ import React, { useEffect, useContext, useState } from 'react';
 import { Grid, Card, CardMedia, CardContent, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { ImageContext } from '../context/ImageContext';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow'; // Importez l'icône
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 export const CardView = ({ images }) => {
   const { sortOrder } = useContext(ImageContext);
   const [sortedImages, setSortedImages] = useState([]);
-  const [hoveredIndex, setHoveredIndex] = useState(null); // État pour suivre l'index survolé
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   useEffect(() => {
     if (!Array.isArray(images)) {

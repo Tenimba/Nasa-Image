@@ -8,7 +8,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 const FavoriteToggle = () => {
-    const { isAuthenticated, loginWithRedirect, user} = useAuth0();
+    const { isAuthenticated, loginWithRedirect, user } = useAuth0();
     const { images, setFavoriteImages } = useContext(ImageContext);
     const { nasa_id } = useParams();
     const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -21,7 +21,7 @@ const FavoriteToggle = () => {
         const isAlreadyFavorite = favorites.some(fav => fav.data[0].nasa_id === nasa_id);
         setIsFavorite(isAlreadyFavorite);
     }
-    , [nasa_id]);
+        , [nasa_id]);
 
     // Fonction pour ajouter ou supprimer une image des favoris
     // Si l'utilisateur n'est pas connecté, un message d'alerte s'affiche
@@ -35,10 +35,10 @@ const FavoriteToggle = () => {
             }, 100);
             return;
         }
-            
+
         let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
         const isAlreadyFavorite = favorites.some(fav => fav.data[0].nasa_id === nasa_id);
-    
+
         if (isAlreadyFavorite) {
             favorites = favorites.filter(fav => fav.data[0].nasa_id !== nasa_id);
             setFavoriteImages(imageDetail, true);

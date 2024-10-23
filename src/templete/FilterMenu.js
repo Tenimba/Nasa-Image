@@ -84,15 +84,15 @@ const FilterMenu = ({ children }) => {
     } else {
       setMediaType(type);
     }
-      setLoading(true);
-      searchImages(searchQuery, type).then(response => {
-        setImages(response?.data?.collection.items);
-        setDrawerOpen(false);
-      }).catch(error => {
-        console.error('Erreur lors de la recherche:', error);
-      }).finally(() => {
-        setLoading(false);
-      });
+    setLoading(true);
+    searchImages(searchQuery, type).then(response => {
+      setImages(response?.data?.collection.items);
+      setDrawerOpen(false);
+    }).catch(error => {
+      console.error('Erreur lors de la recherche:', error);
+    }).finally(() => {
+      setLoading(false);
+    });
   };
 
   return (

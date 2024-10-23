@@ -58,7 +58,7 @@ const NasaImages = () => {
 
   return (
     <>
-    {loading && <Chargement />}
+      {loading && <Chargement />}
       <Grid container spacing={3} sx={{ padding: 2 }}>
         <Grid item xs={12}>
           <Typography variant="h4" align="center" sx={{ marginBottom: 4, fontWeight: 'bold', color: '#2c387e' }}>

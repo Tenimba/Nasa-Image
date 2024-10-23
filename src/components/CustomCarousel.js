@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Carousel } from 'react-responsive-carousel';
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Box, Card, CardMedia, Grid } from '@mui/material';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const CustomCarousel = ({ images, navigate }) => {
     const carouselRef = useRef(null);

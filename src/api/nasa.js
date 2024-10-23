@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const searchImages = async (query, mediaType = "image,video") => {
     let NASA_API_URL = "https://images-api.nasa.gov/search";
-    
+
     if (query) {
         NASA_API_URL += `&q=${query}`;
     }
